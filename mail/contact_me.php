@@ -1,5 +1,19 @@
 <?php
 
+function jsonResponse($code, $message)
+{
+   http_response_code($code);
+   header('Content-Type: application/json');
+   return json_encode(['message' => $message]);
+}
+
+$sessionToken = $_SESSION['token'];
+$formToken = filter_input(INPUT_POST, 'csrf_token');
+
+if ($sessionToken !== $formToken) {
+   return jsonResponse(500, 'Token mismatch.');
+}
+
 $args = [
    'name'      => FILTER_SANITIZE_STRING,
    'email'     => FILTER_VALIDATE_EMAIL,
@@ -14,8 +28,7 @@ $missingKeys = array_filter($inputs, function($key) {
 });
 
 if (!empty($missingKeys)) {
-   echo "Fail to validate form data, please, check if everything is set (not empty) and valid.";
-   return false;
+   jsonResponse(400, 'Fail to validate form data, please, check if everything is set (not empty) and valid.');
 }
 
 /**
