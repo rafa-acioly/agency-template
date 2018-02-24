@@ -58,5 +58,5 @@ EOT;
 $headers = "From: noreply@yourdomain.com\n";
 $headers .= "Reply-To: {$inputs['email']}";
 
-mail($to,$email_subject,$email_body,$headers);
+mail($to, $email_subject, $email_body, $headers);
 return true;
