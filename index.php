@@ -425,7 +425,9 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
+                    <?php $token = $_SESSION['token'] = md5(rand(100, 999999)); ?>
                 <form name="sentMessage" id="contactForm" novalidate>
+                        <input type="hidden" value="<?= $token ?>" name="csrf_token">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
